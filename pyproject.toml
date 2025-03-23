@@ -1,0 +1,132 @@
+[project]
+name = "devpilot"
+version = "0.1.0"
+description = "A toolbox of CLI commands designed to streamline and accelerate software development workflows."
+authors = [
+    { name = "Mattias Aabmets", email = "mattias.aabmets@gmail.com" }
+]
+license = "Apache-2.0"
+readme = "README.md"
+keywords = [
+    "devtools", "developer-tools", "automation", "project-management", "productivity",
+    "versioning", "changelog", "license", "docker", "docker-compose", "lefthook"
+]
+classifiers=[
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Natural Language :: English",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Version Control",
+    "Topic :: Software Development :: Documentation",
+    "Topic :: Utilities"
+]
+requires-python = ">=3.10"
+dependencies = [
+    "bandit>=1.7.8",
+    "black>=24.4.0",
+    "blacksheep>=2.0.0",
+    "flake8>=7.0.0",
+    "flake8-pyproject>=1.2.3",
+    "isort>=6.0.0",
+    "lefthook>=1.8.0",
+    "mypy>=1.11.0",
+    "orjson>=3.10.0",
+    "psutil>=6.0.0",
+    "types-psutil>=6.0.0",
+    "pydantic>=2.6.0",
+    "pyyaml>=6.0.0",
+    "rich>=13.8.0",
+    "typer>=0.10.0",
+    "watchdog>=6.0.0",
+    "orjson>=3.10.0",
+    "semver>=3.0.0",
+    "rtoml>=0.11.0",
+]
+
+[project.urls]
+"Repository" = "https://github.com/aabmets/devpilot"
+"Documentation" = "https://github.com/aabmets/devpilot/wiki"
+"Bug Tracker" = "https://github.com/aabmets/devpilot/issues"
+
+[project.scripts]
+devpilot = "devpilot.cli.main:app"
+dplic = "devpilot.cli.commands.license.main:app"
+dpver = "devpilot.cli.commands.version.main:app"
+dplog = "devpilot.cli.commands.chglog.main:app"
+dpdkr = "devpilot.cli.commands.docker.main:app"
+
+[dependency-groups]
+develop = [
+    "coverage>=7.6.0",
+    "hatchling>=1.24.0",
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.23.5",
+    "pytest-cov>=6.0.0",
+]
+
+[tool.flake8]
+max-line-length = 100
+max-complexity = 15
+
+[tool.mypy]
+disallow_any_unimported = true
+disallow_any_expr = true
+disallow_any_decorated = true
+disallow_any_explicit = true
+disallow_any_generics = true
+disallow_subclassing_any = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_untyped_decorators = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+console_output_style = "count"
+filterwarnings = ["ignore::DeprecationWarning"]
+testpaths = ["tests"]
+addopts = [
+    "--cov=devpilot",
+    "--cov-report=html",
+    "--no-cov-on-fail",
+    "--import-mode=importlib"
+]
+
+[tool.coverage.run]
+branch = true
+source = ["devpilot"]
+
+[tool.coverage.report]
+fail_under = 90
+skip_empty = true
+ignore_errors = true
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "@abstractmethod"
+]
+
+[tool.coverage.html]
+directory = ".htmlcov"
+
+[tool.hatch.build]
+include = ["devpilot"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
