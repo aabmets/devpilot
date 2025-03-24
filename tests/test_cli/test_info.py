@@ -12,41 +12,37 @@
 import re
 
 import rtoml
-from rich.text import Text
-from typer.testing import CliRunner
 
 from devpilot import utils
-from devpilot.cli.commands.info.main import PackageInfo, app
+from devpilot.cli.commands.info.main import PackageInfo
+
+from .conftest import CliRunner
 
 
 def test_info_command() -> None:
     path = utils.search_upwards("pyproject.toml")
     data = rtoml.load(path)
 
-    runner = CliRunner()
-    result = runner.invoke(app)
-    clean_text = Text.from_ansi(result.stdout).plain
+    exit_code, stdout = CliRunner.info_app().invoke()
+    assert exit_code == 0 and "Package Info" in stdout
 
-    assert result.exit_code == 0
-    assert "Package Info" in clean_text
-
-    match = re.search(r"Name: (\w+)", clean_text)
+    match = re.search(r"Name: (\w+)", stdout)
     assert match and match.group(1) == data["project"]["name"]
 
-    match = re.search(r"Version: ([\w.]+)", clean_text)
+    match = re.search(r"Version: ([\w.]+)", stdout)
     assert match and match.group(1) == data["project"]["version"]
 
-    match = re.search(r"Summary: ([\w,. ]+)", clean_text)
+    match = re.search(r"Summary: ([\w,. ]+)", stdout)
     assert match and match.group(1) == data["project"]["description"]
 
-    match = re.search(r"Homepage: ([\w:./]+)", clean_text)
+    match = re.search(r"Homepage: ([\w:./]+)", stdout)
     assert match and match.group(1) == data["project"]["urls"]["Repository"]
 
-    match = re.search(r"Author: ([\w<>@. ]+)", clean_text)
+    match = re.search(r"Author: ([\w<>@. ]+)", stdout)
     a_name, a_email = data["project"]["authors"][0].values()
     assert match and match.group(1) == f"{a_name} <{a_email}>"
 
-    match = re.search(r"License: ([\w\-.]+)", clean_text)
+    match = re.search(r"License: ([\w\-.]+)", stdout)
     assert match and match.group(1) == data["project"]["license"]
 
 

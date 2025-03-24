@@ -9,20 +9,16 @@
 #   SPDX-License-Identifier: Apache-2.0
 #
 
-from typer.testing import CliRunner
-
-from devpilot.cli.main import app
+from .conftest import CliRunner
 
 
 def test_main() -> None:
-    runner = CliRunner()
-    result = runner.invoke(app)
+    exit_code, stdout = CliRunner.main_app().invoke()
 
-    assert result.exit_code == 0
-    assert "Usage: devpilot" in result.stdout
-    assert "chglog" in result.stdout
-    assert "docker" in result.stdout
-    assert "info" in result.stdout
-    assert "init" in result.stdout
-    assert "license" in result.stdout
-    assert "version" in result.stdout
+    assert "Usage: devpilot" in stdout
+    assert "chglog" in stdout
+    assert "docker" in stdout
+    assert "info" in stdout
+    assert "init" in stdout
+    assert "license" in stdout
+    assert "version" in stdout
