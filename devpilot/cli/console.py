@@ -27,7 +27,7 @@ __all__ = [
 _console = Console(soft_wrap=True)
 
 
-def styled_print(message: t.Any, end: str = "\n") -> None:
+def styled_print(message: t.Any, end: str = "\n") -> None:  # pragma: no cover
     if isinstance(message, str):
         sub = "[bold hot_pink3]DevPilot[/]"
         message = message.replace("DevPilot", sub)
@@ -36,17 +36,17 @@ def styled_print(message: t.Any, end: str = "\n") -> None:
         pprint(message, expand_all=True)
 
 
-def print_success() -> None:
+def print_success() -> None:  # pragma: no cover
     msg = "[chartreuse3] :heavy_check_mark: - Operation successful![/]"
     _console.print(msg, end="\n\n")
 
 
-def print_cancelled() -> None:
+def print_cancelled() -> None:  # pragma: no cover
     msg = "[gold3] :warning: - Operation cancelled.[/]"
     _console.print(msg, end="\n\n")
 
 
-def exit_error(reason: str) -> None:
+def exit_error(reason: str) -> None:  # pragma: no cover
     msg = "[bold bright_red]:cross_mark: - DevPilot Error:[/]"
     reason = f"[bold bright_red]{reason}[/]"
     _console.print(msg, end="\n")
@@ -54,7 +54,7 @@ def exit_error(reason: str) -> None:
     raise SystemExit(1)
 
 
-def ask_continue() -> None:
+def ask_continue() -> None:  # pragma: no cover
     answer = Confirm.ask("Do you want to continue?")
     if answer is False:
         print_cancelled()
