@@ -11,4 +11,4 @@ pre-commit:
             stage_fixed: true
           - run: flake8 {staged_files}
           - run: mypy {staged_files}
-          - run: bandit {staged_files}
+          - run: bandit -r -c pyproject.toml {staged_files}

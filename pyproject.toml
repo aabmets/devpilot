@@ -81,6 +81,9 @@ develop = [
 max-line-length = 100
 max-complexity = 15
 
+[tool.bandit]
+exclude_dirs = ["tests"]
+
 [tool.mypy]
 disallow_any_expr = false
 disallow_any_explicit = false
