@@ -15,6 +15,7 @@ from .conftest import CliRunner
 def test_main() -> None:
     exit_code, stdout = CliRunner.main_app().invoke()
 
+    assert exit_code == 0
     assert "Usage: devpilot" in stdout
     assert "chglog" in stdout
     assert "docker" in stdout
