@@ -315,7 +315,7 @@ requires-dist = [
     { name = "semver", specifier = ">=3.0.0" },
     { name = "typer", specifier = ">=0.10.0" },
     { name = "types-psutil", specifier = ">=6.0.0" },
-    { name = "watchfiles", specifier = ">=1.0.4" },
+    { name = "watchfiles", specifier = ">=1.0.0" },
 ]
 
 [package.metadata.requires-dev]

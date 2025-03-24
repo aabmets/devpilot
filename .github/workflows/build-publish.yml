@@ -1,0 +1,51 @@
+name: Build Package and Publish to PyPI
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  pytest-codecov:
+    uses: ./.github/workflows/pytest-codecov.yml
+
+  build:
+    needs: pytest-codecov
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup UV package manager
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.13"
+          version: "latest"
+
+      - name: Run commands
+        run: |
+          uv sync --frozen
+          uv build --out-dir dist
+
+      - name: Upload built packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: dist
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: release
+      url: https://pypi.org/project/devpilot/
+    permissions:
+      id-token: write
+    steps:
+      - name: Download built packages
+        uses: actions/download-artifact@v4
+        with:
+          name: packages
+          path: dist
+
+      - name: Publish package to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
